@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmcc.iot.mapper.LocationMapper" >
+  <resultMap id="BaseResultMap" type="com.cmcc.iot.model.Location" >
+    <id column="ID" property="id" jdbcType="DOUBLE" />
+    <result column="LOCATIONNAME" property="locationname" jdbcType="VARCHAR" />
+    <result column="LOCATIONCODE" property="locationcode" jdbcType="VARCHAR" />
+    <result column="LASTLEVELCODE" property="lastlevelcode" jdbcType="VARCHAR" />
+    <result column="PARENTID" property="parentid" jdbcType="DOUBLE" />
+    <result column="LOCATIONLEVEL" property="locationlevel" jdbcType="DOUBLE" />
+    <result column="ORDERINDEX" property="orderindex" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LOCATIONNAME, LOCATIONCODE, LASTLEVELCODE, PARENTID, LOCATIONLEVEL, ORDERINDEX, 
+    DESCRIPTION
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmcc.iot.model.LocationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_d_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Double" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_d_location
+    where ID = #{id,jdbcType=DOUBLE}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Double" >
+    delete from t_d_location
+    where ID = #{id,jdbcType=DOUBLE}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmcc.iot.model.LocationExample" >
+    delete from t_d_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmcc.iot.model.Location" >
+    insert into t_d_location (ID, LOCATIONNAME, LOCATIONCODE, 
+      LASTLEVELCODE, PARENTID, LOCATIONLEVEL, 
+      ORDERINDEX, DESCRIPTION)
+    values (#{id,jdbcType=DOUBLE}, #{locationname,jdbcType=VARCHAR}, #{locationcode,jdbcType=VARCHAR}, 
+      #{lastlevelcode,jdbcType=VARCHAR}, #{parentid,jdbcType=DOUBLE}, #{locationlevel,jdbcType=DOUBLE}, 
+      #{orderindex,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmcc.iot.model.Location" >
+    insert into t_d_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="locationname != null" >
+        LOCATIONNAME,
+      </if>
+      <if test="locationcode != null" >
+        LOCATIONCODE,
+      </if>
+      <if test="lastlevelcode != null" >
+        LASTLEVELCODE,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="locationlevel != null" >
+        LOCATIONLEVEL,
+      </if>
+      <if test="orderindex != null" >
+        ORDERINDEX,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DOUBLE},
+      </if>
+      <if test="locationname != null" >
+        #{locationname,jdbcType=VARCHAR},
+      </if>
+      <if test="locationcode != null" >
+        #{locationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlevelcode != null" >
+        #{lastlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=DOUBLE},
+      </if>
+      <if test="locationlevel != null" >
+        #{locationlevel,jdbcType=DOUBLE},
+      </if>
+      <if test="orderindex != null" >
+        #{orderindex,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmcc.iot.model.LocationExample" resultType="java.lang.Integer" >
+    select count(*) from t_d_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_d_location
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DOUBLE},
+      </if>
+      <if test="record.locationname != null" >
+        LOCATIONNAME = #{record.locationname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locationcode != null" >
+        LOCATIONCODE = #{record.locationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastlevelcode != null" >
+        LASTLEVELCODE = #{record.lastlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        PARENTID = #{record.parentid,jdbcType=DOUBLE},
+      </if>
+      <if test="record.locationlevel != null" >
+        LOCATIONLEVEL = #{record.locationlevel,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderindex != null" >
+        ORDERINDEX = #{record.orderindex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_d_location
+    set ID = #{record.id,jdbcType=DOUBLE},
+      LOCATIONNAME = #{record.locationname,jdbcType=VARCHAR},
+      LOCATIONCODE = #{record.locationcode,jdbcType=VARCHAR},
+      LASTLEVELCODE = #{record.lastlevelcode,jdbcType=VARCHAR},
+      PARENTID = #{record.parentid,jdbcType=DOUBLE},
+      LOCATIONLEVEL = #{record.locationlevel,jdbcType=DOUBLE},
+      ORDERINDEX = #{record.orderindex,jdbcType=VARCHAR},
+      DESCRIPTION = #{record.description,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmcc.iot.model.Location" >
+    update t_d_location
+    <set >
+      <if test="locationname != null" >
+        LOCATIONNAME = #{locationname,jdbcType=VARCHAR},
+      </if>
+      <if test="locationcode != null" >
+        LOCATIONCODE = #{locationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlevelcode != null" >
+        LASTLEVELCODE = #{lastlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=DOUBLE},
+      </if>
+      <if test="locationlevel != null" >
+        LOCATIONLEVEL = #{locationlevel,jdbcType=DOUBLE},
+      </if>
+      <if test="orderindex != null" >
+        ORDERINDEX = #{orderindex,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DOUBLE}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmcc.iot.model.Location" >
+    update t_d_location
+    set LOCATIONNAME = #{locationname,jdbcType=VARCHAR},
+      LOCATIONCODE = #{locationcode,jdbcType=VARCHAR},
+      LASTLEVELCODE = #{lastlevelcode,jdbcType=VARCHAR},
+      PARENTID = #{parentid,jdbcType=DOUBLE},
+      LOCATIONLEVEL = #{locationlevel,jdbcType=DOUBLE},
+      ORDERINDEX = #{orderindex,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DOUBLE}
+  </update>
+</mapper>
