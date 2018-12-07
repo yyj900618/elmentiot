@@ -88,5 +88,12 @@ public class DeviceController {
     }
 
 
+    @RequestMapping(value = "getdevicecount",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel getDeviceCount(){
+        Integer count=deviceService.getDeviceCount();
+        return new ResponseModel(0L,"成功",count);
+    }
+
 
 }

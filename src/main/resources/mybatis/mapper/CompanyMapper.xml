@@ -109,6 +109,12 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cmcc.iot.model.Company" >
+
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT max(id)+1 AS ID from t_d_company
+    </selectKey>
+
+
     insert into t_d_company
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

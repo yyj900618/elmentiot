@@ -4,6 +4,7 @@ import com.cmcc.iot.model.Auth;
 import com.cmcc.iot.model.Role;
 import com.cmcc.iot.model.User;
 import com.cmcc.iot.service.AuthService;
+import com.cmcc.iot.service.CompanyService;
 import com.cmcc.iot.service.RoleService;
 import com.cmcc.iot.service.UserService;
 import com.cmcc.iot.utills.StringUtils;
@@ -35,6 +36,10 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     @Lazy
     AuthService authService;
+
+    @Autowired
+    @Lazy
+    CompanyService companyService;
 
 
     @Override
@@ -78,6 +83,8 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new UnknownAccountException("没有找到账号信息");//没有找到账号信息
         if(user.getIsvalid()!=1||user.getIsvalid()==null)
             throw new LockedAccountException("该账号已被禁用");
+        if (companyService.getCompanyByid(user.getCompanyid())==null)
+            throw new LockedAccountException("未找到该账号所属公司或该账号所属公司已被禁用");
         ByteSource credentialsSalt = ByteSource.Util.bytes(user.getLoginname());
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), credentialsSalt, getName());
         return authenticationInfo;

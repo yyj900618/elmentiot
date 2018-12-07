@@ -127,7 +127,10 @@ public class UserController {
     @ResponseBody
     public ResponseModel removeuserbyid(@RequestParam(value ="userid", required = true) Integer userid){
         int a= userService.removeUserById(userid);
-        return new ResponseModel(0L,"成功删除"+a+"条",a);
+        if(a>0)
+            return new ResponseModel(0L,"成功删除"+a+"条",a);
+        else
+            return new ResponseModel(500L,"删除失败",null);
     }
 
 
@@ -146,7 +149,7 @@ public class UserController {
                                      @RequestParam(value ="name", required = false) String name,
                                      @RequestParam(value ="phonenum", required = false) String phonenum,
                                      @RequestParam(value ="companyid", required = false) Integer companyid,
-                                     @RequestParam(value ="isvalid", required = false,defaultValue = "1") String isvalid
+                                     @RequestParam(value ="isvalid", required = false) String isvalid
                                      ){
         List<User> userList= userService.listUserByCondition(loginname,name,phonenum,isvalid,companyid);
         return new ResponseModel(0L,"成功",userList);
@@ -186,5 +189,24 @@ public class UserController {
         int a= userService.updateUserById(user);
         return new ResponseModel(0L,"成功更新"+a+"条",a);
     }
+
+
+    @ApiOperation(value = "锁定、解锁人员", notes = "锁定、解锁人员")
+    @RequestMapping(value = "lockuserbyid" ,method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel lockUserbyid(
+            @RequestParam(value ="userid") Integer userid,
+            @RequestParam(value ="isvalid") Integer isvalid){
+        User user = new User();
+        user.setId(userid);
+        user.setIsvalid(isvalid);
+        int a=userService.updateUserById(user);
+        if (a>0)
+            return new ResponseModel(0L,"成功锁定/解锁人员",null);
+        else
+            return new ResponseModel(500L,"锁定/解锁人员失败",null);
+
+    }
+
 
 }

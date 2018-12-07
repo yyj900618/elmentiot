@@ -38,20 +38,31 @@ public class CompanyService {
         if (loginuser==null)
             throw new MyLoginException("请登录后重试");
         Integer roletype=loginuser.getRoletype();
+        if(isvalid!=null)
+            criteria.andIsvalidEqualTo(isvalid);
         if (!StringUtils.isNullOrNone(companyname))
             criteria.andCompanynameLike("%"+companyname+"%");
         if (roletype!=1)
             criteria.andIdEqualTo(loginuser.getCompanyid());
         else if(companyid!=null)
             criteria.andIdEqualTo(companyid);
-        criteria.andIsvalidEqualTo(isvalid);
 
-        example.setOrderByClause("CREATETIME desc");
+
+
+        example.setOrderByClause("id asc");
         return companyMapper.selectByExample(example);
     }
 
+    public int removeCompanyByID(Integer companyid){
+       return companyMapper.deleteByPrimaryKey(companyid);
+    }
 
+    public int addCompany(Company company){
+        return companyMapper.insertSelective(company);
+    }
 
-
+    public int updateCompany(Company company){
+        return companyMapper.updateByPrimaryKeySelective(company);
+    }
 
 }

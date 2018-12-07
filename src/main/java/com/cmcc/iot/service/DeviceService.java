@@ -32,6 +32,8 @@ public class DeviceService {
             criteria.andCompanyidEqualTo(loginuser.getCompanyid());
         else if(companyid!=null)
             criteria.andCompanyidEqualTo(companyid);
+
+        example.setOrderByClause("DEVICEID asc");
         return deviceCompanyIDMapper.selectByExample(example);
     }
 
@@ -47,6 +49,13 @@ public class DeviceService {
 
     public DeviceCompanyID getDevicebyID(Integer deviceid){
        return deviceCompanyIDMapper.selectByPrimaryKey(deviceid);
+    }
+
+    public Integer getDeviceCount(){
+        DeviceCompanyIDExample example = new DeviceCompanyIDExample();
+        example.createCriteria().andDeviceidIsNotNull();
+
+        return deviceCompanyIDMapper.countByExample(example);
     }
 
 }
