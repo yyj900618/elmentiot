@@ -119,12 +119,27 @@ public class AuthController {
             Deque<String> deque = cache.get(userinfo.getLoginname());
             if (deque != null && deque.contains(sessionid))
                 deque.remove(sessionid);
-            return new ResponseModel(0l,"注销成功",null);
+            return new ResponseModel(0L,"注销成功",null);
         }else {
-            return new ResponseModel(401l,"您尚未登录",null);
+            return new ResponseModel(0L,"您尚未登录",null);
         }
     }
 
+    @ApiOperation(value = "是否已登录", notes = "是否已登录")
+    @RequestMapping(value = "islogin" ,method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel islogin(){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Object kickout=session.getAttribute("kickout");
+
+        if(!subject.isAuthenticated())
+            return new ResponseModel(1001L,"未登录",null);
+        else if(kickout!=null)
+            return new ResponseModel(10086L,"该账号已在其他地方登陆，您已被踢出",null);
+        else
+            return new ResponseModel(0L,"已登录",null);
+    }
 
 
 }

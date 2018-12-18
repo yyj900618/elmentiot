@@ -6,7 +6,7 @@ public final class CacheKeyConst {
     }
 
     //uat前缀
-    public static final String ONENETMSG = "iot.msg.";//智慧乡村
+    public static final String ONENETMSG = "iot.msg.";//
 
 
 }
